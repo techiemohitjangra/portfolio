@@ -1,7 +1,46 @@
 :root {
-    /* margin: 0; */
-    /* padding: 0; */
-    /* height: 100vh; */
-    /* width: 100vw; */
-    /* background-color: pink; */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: lightblue;
+}
+
+a,
+a:visited {
+    text-decoration: None;
+    color: black;
+
+}
+
+body {
+    min-height: 96vh;
+}
+
+nav {
+    display: flex;
+}
+
+div.hero_text {
+    display: flex;
+    width: fit-content;
+    justify-content: flex-start;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+ul.nav_items {
+    margin: 0;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    width: fit-content;
+}
+
+li.nav_item {
+    list-style-type: none;
+    width: fit-content;
+    margin: 0 5px;
 }
