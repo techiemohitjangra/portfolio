@@ -9,6 +9,7 @@ import (
 
 func main() {
 	router := echo.New()
+	router.Static("/static", "static")
 
 	homeHandler := handler.HomeHandler{}
 	router.GET("/", homeHandler.HandleHomeShow)
