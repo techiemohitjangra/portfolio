@@ -1,0 +1,29 @@
+package component
+
+type Link struct {
+	Rel  string
+	Href string
+	Type string
+}
+
+type Script struct {
+	Src   string
+	Defer bool
+	Async bool
+	Type  string
+}
+
+templ Base(title string, links []Link, scripts []Script) {
+	<!DOCTYPE html>
+	<html lang="en">
+		@Head(title, links)
+		<body>
+			{ children... }
+			if scripts != nil {
+				for _, script := range scripts {
+					<script src={ script.Src }></script>
+				}
+			}
+		</body>
+	</html>
+}
