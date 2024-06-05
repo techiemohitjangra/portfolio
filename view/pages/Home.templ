@@ -5,17 +5,13 @@ import (
 )
 
 templ HomePage() {
-<!DOCTYPE html>
-<html lang="en">
-@component.Head("Home")
-
-<body>
-    <div>
-        @component.Nav()
-        <p>HOME PAGE</p>
-        @component.Footer()
-    </div>
-</body>
-
-</html>
+@component.Base("Home", []component.Link{cssLink}, []component.Script{}) {
+<div>
+    @component.Header() {
+    @component.Nav()
+    }
+    <p>HOME PAGE</p>
+    @component.Footer()
+</div>
+}
 }

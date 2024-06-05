@@ -1,21 +1,17 @@
 package pages
 
 import (
-"github.com/techiemohitjangra/portfolio/view/component"
+	"github.com/techiemohitjangra/portfolio/view/component"
 )
 
 templ BlogsPage() {
-<!DOCTYPE html>
-<html lang="en">
-@component.Head("Blogs")
-
-<body>
-    <div>
-        @component.Nav()
-        <p>BLOGS PAGE</p>
-        @component.Footer()
-    </div>
-</body>
-
-</html>
+	@component.Base("Blogs", []component.Link{cssLink}, []component.Script{}) {
+		<div class="root">
+			@component.Header() {
+				@component.Nav()
+			}
+			<p>BLOGS PAGE</p>
+			@component.Footer()
+		</div>
+	}
 }

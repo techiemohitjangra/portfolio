@@ -1,21 +1,17 @@
 package pages;
 
 import (
-"github.com/techiemohitjangra/portfolio/view/component"
+	"github.com/techiemohitjangra/portfolio/view/component"
 )
 
 templ ProjectPage() {
-<!DOCTYPE html>
-<html lang="en">
-@component.Head("Project")
-
-<body>
-    <div>
-        @component.Nav()
-        <p>PROJECT PAGE</p>
-        @component.Footer()
-    </div>
-</body>
-
-</html>
+	@component.Base("Project", []component.Link{cssLink}, []component.Script{}) {
+		<div>
+			@component.Header() {
+				@component.Nav()
+			}
+			<p>PROJECT PAGE</p>
+			@component.Footer()
+		</div>
+	}
 }
