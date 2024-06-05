@@ -1,0 +1,24 @@
+# go and templ generated files
+**/*_templ.go
+build
+
+# go test binary
+*.test
+
+# output of go converge tool
+*.out
+
+# go workspace files
+go.work
+go.work.sum
+
+# env file
+.env
+
+# air live reload config
+.air.toml
+
+# build tool
+Makefile
+
+!.gitignore
