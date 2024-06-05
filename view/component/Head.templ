@@ -1,7 +1,14 @@
 package component
 
-templ Head(title string){
-    <head>
-    <title>{ title }</title>
-    </head>
+templ Head(title string, links []Link) {
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		if links != nil {
+			for _, link := range links {
+				<link rel={ link.Rel } type={ link.Type } href={ link.Href }/>
+			}
+		}
+		<title>{ title }</title>
+	</head>
 }
