@@ -12,6 +12,7 @@ func SetupRoutes(router *echo.Echo) {
 
 	aboutHandler := handler.AboutHandler{}
 	router.GET("/about", aboutHandler.HandleAboutShow)
+	router.GET("/about/:username", aboutHandler.HandleUserAboutShow)
 
 	resumeHandler := handler.ResumeHandler{}
 	router.GET("/resume", resumeHandler.HandleResumeShow)
