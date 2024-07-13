@@ -1,0 +1,17 @@
+package pages
+
+import (
+	"github.com/techiemohitjangra/portfolio/view/component"
+)
+
+templ ContactPage() {
+	@component.Base("Contact", []component.Link{GlobalCSS}, []component.Script{TailwindCSS}) {
+		<div class="root">
+			@component.Header() {
+				@component.Nav()
+			}
+			<p>CONTACT PAGE</p>
+			@component.Footer()
+		</div>
+	}
+}
