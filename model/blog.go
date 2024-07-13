@@ -8,30 +8,29 @@ import (
 )
 
 type Blog struct {
-	ID          int64       `json:"id"`
-	Title       string      `json:"title"`
-	Subtitle    string      `json:"subtitle"`
-	PublishedOn time.Time   `json:"published_on"`
-	LastUpdated time.Time   `json:"last_updated"`
-	References  []Reference `json:"references"`
-	Links       []Link      `json:"link"` // link to repo/code
-	Content     string      `json:"content"`
-	Tags        []Tag       `json:"tags"` // list of tags
+	ID          int64       `param:"id" query:"id" form:"id" json:"id"`
+	Title       string      `param:"title" query:"title" form:"title" json:"title"`
+	Subtitle    string      `param:"subtitle" query:"subtitle" form:"subtitle" json:"subtitle"`
+	PublishedOn time.Time   `param:"published_on" query:"published_on" form:"published_on" json:"published_on"`
+	LastUpdated time.Time   `param:"last_updated" query:"last_updated" form:"last_updated" json:"last_updated"`
+	References  []Reference `param:"references" query:"references" form:"references" json:"references"`
+	Links       []Link      `param:"link" query:"link" form:"link" json:"link"` // link to repo/code
+	Content     string      `param:"content" query:"content" form:"content" json:"content"`
+	Tags        []Tag       `param:"tags" query:"tags" form:"tags" json:"tags"` // list of tags
 }
 
 type BlogItem struct {
-	ID          int64     `json:"id"`
-	Title       string    `json:"title"`
-	Subtitle    string    `json:"subtitle"`
-	PublishedOn time.Time `json:"published_on"`
-	LastUpdated time.Time `json:"last_updated"`
-	Tags        []Tag     `json:"tags"` // list of tags
+	ID          int64     `param:"id" query:"id" form:"id" json:"id"`
+	Title       string    `param:"title" query:"title" form:"title" json:"title"`
+	Subtitle    string    `param:"subtitle" query:"subtitle" form:"subtitle" json:"subtitle"`
+	PublishedOn time.Time `param:"published_on" query:"published_on" form:"published_on" json:"published_on"`
+	LastUpdated time.Time `param:"last_updated" query:"last_updated" form:"last_updated" json:"last_updated"`
+	Tags        []Tag     `param:"tags" query:"tags" form:"tags" json:"tags"` // list of tags
 }
 
 // TODO: add authentication
 // if authenticated present options to edit/update blog
 func GetBlog(db *sql.DB, id int64) (*Blog, error) {
-
 	txn, err := db.Begin()
 	if err != nil {
 		log.Println("failed to start transaction: ", err)
@@ -180,11 +179,11 @@ func GetBlogs(db *sql.DB) ([]BlogItem, error) {
 }
 
 // TODO: add authentication
-func AddBlog(db *sql.DB, blog Blog) error {
+func AddBlog(db *sql.DB, blog Blog) (int64, error) {
 	txn, err := db.Begin()
 	if err != nil {
 		log.Println("failed to start transaction: ", err)
-		return err
+		return -1, err
 	}
 	defer txn.Rollback()
 
@@ -195,20 +194,20 @@ func AddBlog(db *sql.DB, blog Blog) error {
 	`)
 	if err != nil {
 		log.Println("failed to prepare statement to insert Blog: ", err)
-		return err
+		return -1, err
 	}
 	defer createBlog.Close()
 
 	result, err := createBlog.Exec(blog.Title, blog.Subtitle, blog.PublishedOn.Unix(), blog.LastUpdated.Unix(), blog.Content)
 	if err != nil {
 		log.Println("execution failed: ", err)
-		return err
+		return -1, err
 	}
 
 	blogID, err := result.LastInsertId()
 	if err != nil {
 		log.Println("failed to get last inserted Blog's id: ", err)
-		return err
+		return -1, err
 	}
 
 	// Insert Links for the Blog
@@ -217,7 +216,7 @@ func AddBlog(db *sql.DB, blog Blog) error {
 		err = AddLink(txn, link)
 		if err != nil {
 			log.Println("failed to add link: ", err)
-			return err
+			return -1, err
 		}
 	}
 
@@ -227,7 +226,7 @@ func AddBlog(db *sql.DB, blog Blog) error {
 		err = AddReference(txn, reference)
 		if err != nil {
 			log.Println("failed to add reference: ", err)
-			return err
+			return -1, err
 		}
 	}
 
@@ -236,17 +235,17 @@ func AddBlog(db *sql.DB, blog Blog) error {
 		err = AddBlogTag(txn, blogID, tag)
 		if err != nil {
 			log.Println("failed to add BlogTag: ", err)
-			return err
+			return -1, err
 		}
 	}
 
 	err = txn.Commit()
 	if err != nil {
 		log.Println("failed to commit transaction: ", err)
-		return err
+		return -1, err
 	}
 
-	return nil
+	return blogID, nil
 }
 
 // TODO: add authentication
