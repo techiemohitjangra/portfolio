@@ -21,9 +21,16 @@ jobs:
         with:
           go-version: '1.22.x'
 
-      - name: Install dependencies
+      - name: install templ
         run:
-          go get .
+          go install github.com/a-h/templ/cmd/templ@latest
+
+      - name: generate go files from templ files
+        run:
+          templ generate .
+
+      - name: Install dependencies
+        run: |
           go get github.com/a-h/templ
           go get github.com/labstack/echo/v4
           go get github.com/mattn/go-sqlite3
