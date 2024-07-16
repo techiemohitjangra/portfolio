@@ -1,11 +1,12 @@
 package pages
 
 import (
-	"github.com/techiemohitjangra/portfolio/view/component"
+	component "github.com/techiemohitjangra/portfolio/view/component"
+	model "github.com/techiemohitjangra/portfolio/model"
 )
 
-templ BlogsPage() {
-	@component.Base("Blogs", []component.Link{cssLink}, []component.Script{}) {
+templ BlogsPage(blogs []model.BlogItem) {
+	@component.Base("Blogs", []component.Link{GlobalCSS, BlogsCSS}, []component.Script{TailwindCSS}) {
 		<div class="root">
 			@component.Header() {
 				@component.Nav()

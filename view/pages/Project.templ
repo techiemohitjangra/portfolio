@@ -1,16 +1,17 @@
-package pages;
+package pages
 
 import (
-	"github.com/techiemohitjangra/portfolio/view/component"
+	component "github.com/techiemohitjangra/portfolio/view/component"
+	model "github.com/techiemohitjangra/portfolio/model"
 )
 
-templ ProjectPage() {
-	@component.Base("Project", []component.Link{cssLink}, []component.Script{}) {
+templ ProjectPage(project *model.Project) {
+	@component.Base(project.Title, []component.Link{GlobalCSS, ProjectCSS}, []component.Script{TailwindCSS}) {
 		<div>
 			@component.Header() {
 				@component.Nav()
 			}
-			<p>PROJECT PAGE</p>
+			<p class="project_title">{ project.Title }</p>
 			@component.Footer()
 		</div>
 	}

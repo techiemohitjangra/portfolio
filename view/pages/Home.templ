@@ -1,17 +1,17 @@
 package pages;
 
 import (
-"github.com/techiemohitjangra/portfolio/view/component"
+	component "github.com/techiemohitjangra/portfolio/view/component"
 )
 
 templ HomePage() {
-@component.Base("Home", []component.Link{cssLink}, []component.Script{}) {
-<div>
-    @component.Header() {
-    @component.Nav()
-    }
-    <p>HOME PAGE</p>
-    @component.Footer()
-</div>
-}
+	@component.Base("Home", []component.Link{GlobalCSS, HomeCSS}, []component.Script{TailwindCSS}) {
+		<div>
+			@component.Header() {
+				@component.Nav()
+			}
+			<p>HOME PAGE</p>
+			@component.Footer()
+		</div>
+	}
 }

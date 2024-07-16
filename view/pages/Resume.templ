@@ -1,11 +1,11 @@
 package pages;
 
 import (
-	"github.com/techiemohitjangra/portfolio/view/component"
+	component "github.com/techiemohitjangra/portfolio/view/component"
 )
 
 templ ResumePage() {
-	@component.Base("Resume", []component.Link{cssLink}, []component.Script{}) {
+	@component.Base("Resume", []component.Link{GlobalCSS, ResumeCSS}, []component.Script{TailwindCSS}) {
 		<div>
 			@component.Header() {
 				@component.Nav()

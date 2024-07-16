@@ -1,16 +1,18 @@
 package pages
 
 import (
+	model "github.com/techiemohitjangra/portfolio/model"
 	component "github.com/techiemohitjangra/portfolio/view/component"
 )
 
-templ AboutPage() {
-	@component.Base("About", []component.Link{cssLink}, []component.Script{}) {
+templ AboutPage(user *model.UserShow) {
+	@component.Base("About", []component.Link{GlobalCSS, AboutCSS}, []component.Script{TailwindCSS}) {
 		<div class="root">
 			@component.Header() {
 				@component.Nav()
 			}
 			<p>ABOUT PAGE</p>
+			<p class="username">{ user.UserName }</p>
 			@component.Footer()
 		</div>
 	}

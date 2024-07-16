@@ -25,7 +25,7 @@ var AboutCSS component.Link = component.Link{
 	Href: "static/css/about.css",
 }
 
-var resumeCSS component.Link = component.Link{
+var ResumeCSS component.Link = component.Link{
 
 	Rel:  "stylesheet",
 	Type: "text/css",
