@@ -1,16 +1,16 @@
 package component
 
 type Link struct {
-	Rel  string
-	Href string
-	Type string
+	Rel  string `json:"rel"`
+	Href string `json:"href"`
+	Type string `json:"type"`
 }
 
 type Script struct {
-	Src   string
-	Defer bool
-	Async bool
-	Type  string
+	Src   string `json:"src"`
+	Defer bool   `json:"defer"`
+	Async bool   `json:"async"`
+	Type  string `json:"type"`
 }
 
 templ Base(title string, links []Link, scripts []Script) {
