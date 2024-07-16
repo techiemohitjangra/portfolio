@@ -1,12 +1,17 @@
 package handler
 
 import (
+	"database/sql"
+
 	"github.com/labstack/echo/v4"
-	"github.com/techiemohitjangra/portfolio/view/pages"
+	pages "github.com/techiemohitjangra/portfolio/view/pages"
 )
 
-type ResumeHandler struct{}
+type ResumeHandler struct {
+	DB  *sql.DB
+	Env map[string]string
+}
 
-func (h ResumeHandler) HandleResumeShow(c echo.Context) error {
-	return render(c, pages.ResumePage())
+func (handler ResumeHandler) HandleResumeShow(ctx echo.Context) error {
+	return render(ctx, pages.ResumePage())
 }
