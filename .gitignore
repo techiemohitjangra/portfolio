@@ -1,3 +1,6 @@
+# temp/test database
+testDB.db
+
 # go and templ generated files
 **/*_templ.go
 build
