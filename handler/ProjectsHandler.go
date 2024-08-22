@@ -2,7 +2,6 @@ package handler
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -35,7 +34,7 @@ func (handler ProjectsHandler) HandleProjectShow(ctx echo.Context) error {
 	projectID, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
 		log.Println("failed to parse project ID from path parameter: ", err)
-		ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
+		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"error_message": "failed to parse project ID from path parameter",
 		})
 	}
@@ -43,21 +42,14 @@ func (handler ProjectsHandler) HandleProjectShow(ctx echo.Context) error {
 	project, err := model.GetProject(handler.DB, projectID)
 	if err != nil {
 		log.Println("failed to get project from ID: ", err)
-		ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
+		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"error_message": "failed to get project from ID",
 		})
 	}
 
 	acceptHeader := ctx.Request().Header.Get("Accept")
 	if strings.Contains(acceptHeader, "application/json") {
-		projectJSON, err := json.Marshal(project)
-		if err != nil {
-			log.Println("Failed to marshal project: ", err)
-			return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
-				"error_message": "failed to marshal project to json",
-			})
-		}
-		return ctx.JSON(http.StatusOK, projectJSON)
+		return ctx.JSON(http.StatusOK, project)
 	} else if strings.Contains(acceptHeader, "text/html") {
 		return render(ctx, pages.ProjectPage(project))
 	}
@@ -89,14 +81,7 @@ func (handler ProjectsHandler) HandleProjectsShow(ctx echo.Context) error {
 
 	acceptHeader := ctx.Request().Header.Get("Accept")
 	if strings.Contains(acceptHeader, "application/json") {
-		projectsJSON, err := json.Marshal(projects)
-		if err != nil {
-			log.Println("failed to marshal projects: ", err)
-			return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
-				"error_message": "failed to get projects",
-			})
-		}
-		return ctx.JSON(http.StatusOK, projectsJSON)
+		return ctx.JSON(http.StatusOK, projects)
 	} else if strings.Contains(acceptHeader, "text/html") {
 		return render(ctx, pages.ProjectsPage(projects))
 	}

@@ -2,7 +2,6 @@ package handler
 
 import (
 	"database/sql"
-	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
@@ -49,13 +48,7 @@ func (handler BlogsHandler) HandleBlogShow(ctx echo.Context) error {
 
 	acceptHeader := ctx.Request().Header.Get("Accept")
 	if strings.Contains(acceptHeader, "application/json") {
-		blogJSON, err := json.Marshal(blog)
-		if err != nil {
-			log.Println("Failed to marshal blog: ", err)
-			return ctx.NoContent(http.StatusInternalServerError)
-		}
-
-		return ctx.JSON(http.StatusOK, blogJSON)
+		return ctx.JSON(http.StatusOK, blog)
 	} else if strings.Contains(acceptHeader, "text/html") {
 		return render(ctx, pages.BlogPage(blog))
 	}
@@ -86,15 +79,7 @@ func (handler BlogsHandler) HandleBlogsShow(ctx echo.Context) error {
 
 	acceptHeader := ctx.Request().Header.Get("Accept")
 	if strings.Contains(acceptHeader, "application/json") {
-		blogsJSON, err := json.Marshal(blogs)
-		if err != nil {
-			log.Println("failed to marshal blogs: ", err)
-			return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
-				"error_message": "failed to marshal blogs: ",
-				"err":           err,
-			})
-		}
-		return ctx.JSON(http.StatusOK, blogsJSON)
+		return ctx.JSON(http.StatusOK, blogs)
 	} else if strings.Contains(acceptHeader, "text/html") {
 		return render(ctx, pages.BlogsPage(blogs))
 	}
@@ -117,7 +102,7 @@ func (handler BlogsHandler) HandleBlogCreate(ctx echo.Context) error {
 	err := ctx.Bind(blog)
 	if err != nil {
 		log.Println("failed to get Form Params from request context(ctx)")
-		ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
+		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"error_message": "failed to parse blog from the request",
 		})
 	}
@@ -128,7 +113,7 @@ func (handler BlogsHandler) HandleBlogCreate(ctx echo.Context) error {
 	blogID, err := model.AddBlog(handler.DB, blog)
 	if err != nil {
 		log.Println("failed to add blog")
-		ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
+		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"error_message": "failed to added blog",
 		})
 	}
@@ -154,7 +139,7 @@ func (handler BlogsHandler) HandleBlogUpdate(ctx echo.Context) error {
 	err := ctx.Bind(blog)
 	if err != nil {
 		log.Println("failed to get Form Params from request context(ctx)")
-		ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
+		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"error_message": "failed to parse blog from the request",
 		})
 	}
