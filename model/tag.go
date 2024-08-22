@@ -168,7 +168,7 @@ func GetProjectTags(txn *sql.Tx, projectID int64) ([]Tag, error) {
 	getProjectTags, err := txn.Prepare(`
 		SELECT t.ID, t.Name, t.IconPath
 		FROM ProjectTag pt
-		JOIN Tag t ON bt.TagID = t.ID
+		JOIN Tag t ON pt.TagID = t.ID
 		WHERE pt.ProjectID = ?;
 	`)
 	if err != nil {
