@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"encoding/json"
 	"log"
 	"time"
 )
@@ -89,14 +88,6 @@ func GetBlog(db *sql.DB, id int64) (*Blog, error) {
 	blog.Links = links
 	blog.Tags = tags
 
-	// Testing or Debug/Development
-	blogJSON, err := json.Marshal(blog)
-	if err != nil {
-		log.Println("failed to parse blog to JSON: ", err)
-		return nil, err
-	}
-	log.Print(blogJSON)
-
 	err = txn.Commit()
 	if err != nil {
 		log.Println("failed to commit transaction: ", err)
@@ -182,7 +173,7 @@ func GetBlogs(db *sql.DB) ([]BlogItem, error) {
 func AddBlog(db *sql.DB, blog Blog) (int64, error) {
 	txn, err := db.Begin()
 	if err != nil {
-		log.Println("failed to start transaction: ", err)
+		log.Println("failed to start transaction to add blog: ", err)
 		return -1, err
 	}
 	defer txn.Rollback()
