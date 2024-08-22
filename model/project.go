@@ -66,7 +66,6 @@ type ProjectItem struct {
 	LastUpdated   time.Time `param:"last_updated" query:"last_updated" form:"last_updated" json:"last_updated"`
 	Status        Status    `param:"status" query:"status" form:"status" json:"status"`
 	Tags          []Tag     `param:"tags" query:"tags" form:"tags" json:"tags"`
-	CreatedOn     time.Time `param:"created_on" query:"created_on" form:"created_on" json:"created_on"`
 	Visibility    bool      `param:"visibility" query:"visibility" form:"visibility" json:"visibility"`
 }
 
