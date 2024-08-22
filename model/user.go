@@ -143,7 +143,11 @@ func GetUserShow(db *sql.DB, userName string) (*UserShow, error) {
 	}
 	defer txn.Rollback()
 
-	addUser, err := txn.Prepare("SELECT FirstName, LastName, UserName, EmailAddress, About, ProfilePicturePath FROM User;")
+	addUser, err := txn.Prepare(`
+		SELECT FirstName, LastName, UserName, EmailAddress, About, ProfilePicturePath
+		FROM User
+		Where UserName = ?;
+	`)
 	if err != nil {
 		log.Println("failed to prepare statement to add user: ", err)
 		return nil, err
