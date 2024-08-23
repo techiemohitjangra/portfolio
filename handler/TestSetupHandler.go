@@ -38,15 +38,17 @@ func (handler TestSetupHandler) SetupHandler(ctx echo.Context) error {
 	if err != nil {
 		log.Println("failed to add sample user: ", err)
 	}
+	log.Println("successfully added user")
 
 	blogID, err := model.AddBlog(handler.DB, sample.SampleBlog)
 	if err != nil {
 		log.Println(blogID)
 		log.Println("failed to add sample blog: ", err)
 		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"error_message": "failed to add blog",
+			"error_message": "failed to add blog in setup",
 		})
 	}
+	log.Println("successfully added blog")
 
 	projectID, err := model.AddProject(handler.DB, sample.SampleProject1)
 	if err != nil {
